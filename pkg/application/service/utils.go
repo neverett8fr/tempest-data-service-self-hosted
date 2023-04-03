@@ -4,7 +4,15 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
+
+func NewRoutes(r *mux.Router) {
+	newGeneric(r)
+
+	r.HandleFunc("/test/{text}", testHandler).Methods("GET")
+}
 
 func writeReponse(w http.ResponseWriter, r *http.Request, body interface{}) {
 

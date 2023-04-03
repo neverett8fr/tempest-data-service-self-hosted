@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func NewDataInformation(r *mux.Router) {
+func newGeneric(r *mux.Router) {
 	r.HandleFunc("/test/{text}", testHandler).Methods("GET")
 }
 
