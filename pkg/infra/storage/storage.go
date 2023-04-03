@@ -10,7 +10,21 @@ import (
 
 func (sp *StorageProvider) GetAllFileInformation(ctx context.Context, username string) ([]application.File, error) {
 
-	return []application.File{}, nil
+	path := fmt.Sprintf("%s/%s", sp.StorageLocation, username)
+	files, err := os.ReadDir(path)
+	if err != nil {
+		return []application.File{}, fmt.Errorf("Error reading directory %s: %v\n", path, err)
+	}
+
+	var filesOut []application.File
+	for _, file := range files {
+		if !file.IsDir() {
+			filesOut = append(filesOut, application.File{Key: file.Name()})
+		}
+	}
+
+	return filesOut, nil
+
 }
 
 func (sp *StorageProvider) GetFileContent(ctx context.Context, username string, key string) (application.File, error) {
