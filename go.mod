@@ -1,4 +1,4 @@
-module tempest-user-service
+module tempest-data-service
 
 go 1.18
 
