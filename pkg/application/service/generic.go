@@ -9,6 +9,7 @@ import (
 )
 
 func newGeneric(r *mux.Router) {
+
 	r.HandleFunc("/test/{text}", testHandler).Methods("GET")
 }
 

@@ -1,10 +1,12 @@
 package service
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 
+	"tempest-data-service/pkg/config"
 	"tempest-data-service/pkg/infra/storage"
 
 	"github.com/gorilla/mux"
@@ -19,10 +21,20 @@ var (
 	StorageProvider storage.StorageProvider
 )
 
-func NewRoutes(r *mux.Router) {
-	newGeneric(r)
+func NewRoutes(r *mux.Router, conf config.Config) {
+	sp, err := storage.InitialiseStorageProvider(
+		context.Background(),
+		conf.Storage.MountLocation,
+	)
+	if err != nil {
+		log.Printf("error initialising storage provider, err %v", err)
+	}
 
-	r.HandleFunc("/test/{text}", testHandler).Methods("GET")
+	StorageProvider = sp
+
+	newGeneric(r)
+	newDataInformation(r)
+	newDataOperation(r)
 }
 
 func writeReponse(w http.ResponseWriter, body interface{}) {

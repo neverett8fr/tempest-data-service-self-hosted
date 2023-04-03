@@ -16,19 +16,13 @@ type Service struct {
 	Host string `yaml:"host"`
 	Port int    `yaml:"port"`
 }
-
-type DB struct {
-	Driver   string `yaml:"driver"`
-	Username string `yaml:"username"`
-	Password string `yaml:"password"`
-	Host     string `yaml:"host"`
-	Port     int    `yaml:"port"`
-	Name     string `yaml:"name"`
+type Storage struct {
+	MountLocation string `yaml:"mount-location"`
 }
 
 type Config struct {
 	Service Service `yaml:"data-service-config"`
-	DB      DB      `yaml:"data-db-config"`
+	Storage Storage `yaml:"data-storage-config"`
 }
 
 func Initialise() (*Config, error) {

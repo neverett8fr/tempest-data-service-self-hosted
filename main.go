@@ -10,9 +10,9 @@ import (
 )
 
 // Route declaration
-func getRoutes() *mux.Router {
+func getRoutes(conf config.Config) *mux.Router {
 	r := mux.NewRouter()
-	application.NewRoutes(r)
+	application.NewRoutes(r, conf)
 
 	return r
 }
@@ -41,7 +41,7 @@ func main() {
 	// }
 	// log.Println("DB migrations ran")
 
-	router := getRoutes()
+	router := getRoutes(*conf)
 	log.Println("API routes retrieved")
 
 	err = cmd.StartServer(&conf.Service, router)
