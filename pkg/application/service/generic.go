@@ -19,5 +19,5 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 
 	body := application.NewResponse(fmt.Sprintf("test: %v", text))
 
-	writeReponse(w, r, body)
+	writeReponse(w, body)
 }

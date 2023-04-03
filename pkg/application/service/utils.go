@@ -5,7 +5,18 @@ import (
 	"log"
 	"net/http"
 
+	"tempest-data-service/pkg/infra/storage"
+
 	"github.com/gorilla/mux"
+)
+
+const (
+	username = "username"
+	item     = "item"
+)
+
+var (
+	StorageProvider storage.StorageProvider
 )
 
 func NewRoutes(r *mux.Router) {
@@ -14,7 +25,7 @@ func NewRoutes(r *mux.Router) {
 	r.HandleFunc("/test/{text}", testHandler).Methods("GET")
 }
 
-func writeReponse(w http.ResponseWriter, r *http.Request, body interface{}) {
+func writeReponse(w http.ResponseWriter, body interface{}) {
 
 	reponseBody, err := json.Marshal(body)
 	if err != nil {
