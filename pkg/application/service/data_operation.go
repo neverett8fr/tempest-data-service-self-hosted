@@ -2,6 +2,7 @@ package service
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	application "tempest-data-service/pkg/application/entities"
@@ -58,8 +59,7 @@ func userFileUploadSmall(w http.ResponseWriter, r *http.Request) {
 	err = StorageProvider.UploadSmallFile(
 		r.Context(),
 		usr,
-		fileData.Metadata.Name,
-		fileData.Metadata.Extension,
+		fmt.Sprintf("%s.%s", fileData.Metadata.Name, fileData.Metadata.Extension),
 		fileData.Metadata.Size,
 		fileData.Data,
 	)

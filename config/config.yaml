@@ -2,5 +2,5 @@ data-service-config:
   host: "0.0.0.0"
   port: 8080
 data-storage-config:
-  mount-location: "/mounting_dir"
+  mount-location: "/mounting_dir/data"
 
