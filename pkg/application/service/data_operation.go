@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	application "tempest-data-service/pkg/application/entities"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )
 
@@ -59,7 +61,7 @@ func userFileUploadLarge(w http.ResponseWriter, r *http.Request) {
 	err = StorageProvider.UploadSmallFile(
 		r.Context(),
 		usr,
-		fmt.Sprintf("%s.%s", "fileData.Metadata.Name", "fileData.Metadata.Extension"),
+		fmt.Sprintf("%s.%s", uuid.New().String(), strings.Trim(r.Header[headerContentType][0], "application/")),
 		0,
 		bodyIn,
 	)

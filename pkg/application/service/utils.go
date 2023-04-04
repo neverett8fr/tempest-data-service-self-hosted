@@ -18,7 +18,7 @@ const (
 
 	headerContentType = "Content-Type"
 	contentTypeJSON   = "application/json"
-	contentTypeJPEG   = "image/jpeg"
+	contentTypeJPEG   = "image/*"
 )
 
 var (
