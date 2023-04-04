@@ -61,7 +61,7 @@ func userFileUploadLarge(w http.ResponseWriter, r *http.Request) {
 	err = StorageProvider.UploadSmallFile(
 		r.Context(),
 		usr,
-		fmt.Sprintf("%s.%s", uuid.New().String(), strings.Trim(r.Header[headerContentType][0], "application/")),
+		fmt.Sprintf("%s.%s", uuid.New().String(), strings.ReplaceAll(r.Header[headerContentType][0], contentTypeImage, "")),
 		0,
 		bodyIn,
 	)
