@@ -12,8 +12,36 @@ import (
 )
 
 func newDataOperation(r *mux.Router) {
-	r.HandleFunc("/data/{username}/{item}", userFileDownloadSmall).Methods(http.MethodGet)
+	r.HandleFunc("/data/{username}/{item}", userFileDownload).Methods(http.MethodGet)
 	r.HandleFunc("/data/{username}", userFileUpload).Methods(http.MethodPost)
+}
+
+func userFileDownload(w http.ResponseWriter, r *http.Request) {
+	switch r.Header[headerAccept][0] {
+	case contentTypeJSON:
+		userFileDownloadSmall(w, r)
+	default:
+		userFileDownloadLarge(w, r)
+	}
+}
+
+func userFileDownloadLarge(w http.ResponseWriter, r *http.Request) {
+
+	params := mux.Vars(r)
+	usr := params[username]
+	it := params[item]
+
+	fileContent, err := StorageProvider.GetFileContent(
+		r.Context(), usr, it,
+	)
+	if err != nil {
+		body := application.NewResponse(nil, err)
+		writeReponse(w, body)
+		return
+	}
+
+	writeFile(w, []byte(fileContent.Data))
+
 }
 
 func userFileDownloadSmall(w http.ResponseWriter, r *http.Request) {
