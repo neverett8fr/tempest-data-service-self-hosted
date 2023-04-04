@@ -58,10 +58,16 @@ func writeReponse(w http.ResponseWriter, body interface{}) {
 	}
 }
 
+func getFileType(file []byte) string {
+	fileType := http.DetectContentType(file)
+
+	return fileType
+}
+
 func writeFile(w http.ResponseWriter, body []byte) {
 
 	// Set the response headers
-	w.Header().Set("Content-Type", "image/png")
+	w.Header().Set("Content-Type", getFileType(body))
 	w.Header().Set("Content-Length", fmt.Sprintf("%v", len(body)))
 
 	_, err := w.Write(body)
