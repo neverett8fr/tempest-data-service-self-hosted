@@ -41,7 +41,7 @@ func userFileUpload(w http.ResponseWriter, r *http.Request) {
 	switch r.Header[headerContentType][0] {
 	case contentTypeJSON:
 		userFileUploadSmall(w, r)
-	case contentTypeJPEG:
+	default:
 		userFileUploadLarge(w, r)
 	}
 }
