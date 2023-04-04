@@ -15,6 +15,10 @@ import (
 const (
 	username = "username"
 	item     = "item"
+
+	headerContentType = "Content-Type"
+	contentTypeJSON   = "application/json"
+	contentTypeJPEG   = "image/jpeg"
 )
 
 var (

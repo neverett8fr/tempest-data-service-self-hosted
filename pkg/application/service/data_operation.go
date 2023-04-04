@@ -12,7 +12,7 @@ import (
 
 func newDataOperation(r *mux.Router) {
 	r.HandleFunc("/data/{username}/{item}", userFileDownloadSmall).Methods(http.MethodGet)
-	r.HandleFunc("/data/{username}", userFileUploadSmall).Methods(http.MethodPost)
+	r.HandleFunc("/data/{username}", userFileUpload).Methods(http.MethodPost)
 }
 
 func userFileDownloadSmall(w http.ResponseWriter, r *http.Request) {
@@ -31,6 +31,45 @@ func userFileDownloadSmall(w http.ResponseWriter, r *http.Request) {
 	}
 
 	body := application.NewResponse(fileContent)
+	writeReponse(w, body)
+
+}
+
+func userFileUpload(w http.ResponseWriter, r *http.Request) {
+	switch r.Header[headerContentType][0] {
+	case contentTypeJSON:
+		userFileUploadSmall(w, r)
+	case contentTypeJPEG:
+		userFileUploadLarge(w, r)
+	}
+}
+
+func userFileUploadLarge(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	usr := params[username]
+
+	bodyIn, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		body := application.NewResponse(nil, err)
+		w.WriteHeader(http.StatusUnprocessableEntity)
+		writeReponse(w, body)
+		return
+	}
+
+	err = StorageProvider.UploadSmallFile(
+		r.Context(),
+		usr,
+		fmt.Sprintf("%s.%s", "fileData.Metadata.Name", "fileData.Metadata.Extension"),
+		0,
+		bodyIn,
+	)
+	if err != nil {
+		body := application.NewResponse(nil, err)
+		writeReponse(w, body)
+		return
+	}
+
+	body := application.NewResponse("File successfully uploaded")
 	writeReponse(w, body)
 
 }
