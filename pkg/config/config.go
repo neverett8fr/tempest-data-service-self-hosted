@@ -21,8 +21,9 @@ type Storage struct {
 }
 
 type Compression struct {
-	Host string `yaml:"host"`
-	Port int    `yaml:"port"`
+	Host           string `yaml:"host"`
+	Port           int    `yaml:"port"`
+	UseCompression bool   `yaml:"use-compression"`
 }
 
 type Config struct {

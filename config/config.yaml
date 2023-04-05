@@ -6,3 +6,4 @@ data-storage-config:
 compression-service:
   host: ${COMPRESSION_SERVICE_HOST}
   port: ${COMPRESSION_SERVICE_PORT}
+  use-compression: true
