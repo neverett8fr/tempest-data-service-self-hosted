@@ -2,5 +2,7 @@ data-service-config:
   host: "0.0.0.0"
   port: 8080
 data-storage-config:
-  mount-location: "/mounting_dir/data"
-
+  mount-location: "/media/neverett8fr/6b9ccfe6-7d8b-41bf-909d-6420167873f0/data"
+compression-service:
+  host: ${COMPRESSION_SERVICE_HOST}
+  port: ${COMPRESSION_SERVICE_PORT}

@@ -20,9 +20,15 @@ type Storage struct {
 	MountLocation string `yaml:"mount-location"`
 }
 
+type Compression struct {
+	Host string `yaml:"host"`
+	Port int    `yaml:"port"`
+}
+
 type Config struct {
-	Service Service `yaml:"data-service-config"`
-	Storage Storage `yaml:"data-storage-config"`
+	Service     Service     `yaml:"data-service-config"`
+	Storage     Storage     `yaml:"data-storage-config"`
+	Compression Compression `yaml:"compression-service"`
 }
 
 func Initialise() (*Config, error) {
