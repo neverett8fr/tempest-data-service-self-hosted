@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"tempest-data-service/pkg/config"
+	"tempest-data-service/pkg/infra/compression"
 	"tempest-data-service/pkg/infra/storage"
 
 	"github.com/gorilla/mux"
@@ -25,7 +26,8 @@ const (
 )
 
 var (
-	StorageProvider storage.StorageProvider
+	StorageProvider     storage.StorageProvider
+	CompressionProvider compression.CompressionProvider
 )
 
 func NewRoutes(r *mux.Router, conf config.Config) {
@@ -37,7 +39,16 @@ func NewRoutes(r *mux.Router, conf config.Config) {
 		log.Printf("error initialising storage provider, err %v", err)
 	}
 
+	cp, err := compression.InitialiseCompressionProvider(
+		context.Background(),
+		conf.Compression,
+	)
+	if err != nil {
+		log.Printf("error initialising compression provider, err %v", err)
+	}
+
 	StorageProvider = sp
+	CompressionProvider = cp
 
 	newGeneric(r)
 	newDataInformation(r)
