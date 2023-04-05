@@ -8,7 +8,7 @@ import (
 
 type CompressionProvider struct {
 	Path           string
-	UseCompression string
+	UseCompression bool
 }
 
 func InitialiseCompressionProvider(ctx context.Context, conf config.Compression) (CompressionProvider, error) {

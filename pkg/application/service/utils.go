@@ -86,3 +86,13 @@ func writeFile(w http.ResponseWriter, body []byte) {
 		log.Printf("error writing response, err %v", err)
 	}
 }
+
+func processFile(file []byte) ([]byte, error) {
+
+	if CompressionProvider.UseCompression {
+		return CompressionProvider.Convert(file)
+	}
+
+	return file, nil
+
+}

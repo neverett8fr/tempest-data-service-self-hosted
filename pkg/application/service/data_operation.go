@@ -85,7 +85,7 @@ func userFileUploadLarge(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	compressedFile, err := CompressionProvider.Convert(bodyIn)
+	processedFile, err := processFile(bodyIn)
 	if err != nil {
 		body := application.NewResponse(nil, err)
 		w.WriteHeader(http.StatusUnprocessableEntity)
@@ -99,7 +99,7 @@ func userFileUploadLarge(w http.ResponseWriter, r *http.Request) {
 		// fmt.Sprintf("%s.%s", uuid.New().String(), strings.ReplaceAll(r.Header[headerContentType][0], contentTypeImage, "")),
 		uuid.New().String(),
 		0,
-		compressedFile,
+		processedFile,
 	)
 	if err != nil {
 		body := application.NewResponse(nil, err)
