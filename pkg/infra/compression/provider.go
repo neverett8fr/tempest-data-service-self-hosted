@@ -19,6 +19,7 @@ func InitialiseCompressionProvider(ctx context.Context, conf config.Compression)
 	}
 
 	return CompressionProvider{
-		Path: pathToService,
+		Path:           pathToService,
+		UseCompression: conf.UseCompression,
 	}, nil
 }
