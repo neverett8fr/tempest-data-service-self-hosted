@@ -40,6 +40,18 @@ func userFileDownloadLarge(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if CompressionProvider.IsCompressed(fileContent.Data) {
+		processedFile, err := processFile(fileContent.Data)
+		if err != nil {
+			body := application.NewResponse(nil, err)
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			writeReponse(w, body)
+			return
+		}
+		writeFile(w, []byte(processedFile))
+		return
+	}
+
 	writeFile(w, []byte(fileContent.Data))
 
 }
