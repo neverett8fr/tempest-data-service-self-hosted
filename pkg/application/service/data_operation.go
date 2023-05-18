@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	application "tempest-data-service/pkg/application/entities"
 
@@ -27,6 +28,7 @@ func userFileDownload(w http.ResponseWriter, r *http.Request) {
 
 func userFileDownloadLarge(w http.ResponseWriter, r *http.Request) {
 
+	log.Printf("download large: ")
 	params := mux.Vars(r)
 	usr := params[username]
 	it := params[item]
@@ -35,6 +37,7 @@ func userFileDownloadLarge(w http.ResponseWriter, r *http.Request) {
 		r.Context(), usr, it,
 	)
 	if err != nil {
+		log.Printf("err %v", err)
 		body := application.NewResponse(nil, err)
 		writeReponse(w, body)
 		return
@@ -58,6 +61,7 @@ func userFileDownloadLarge(w http.ResponseWriter, r *http.Request) {
 
 func userFileDownloadSmall(w http.ResponseWriter, r *http.Request) {
 
+	log.Printf("download small: ")
 	params := mux.Vars(r)
 	usr := params[username]
 	it := params[item]
@@ -66,6 +70,7 @@ func userFileDownloadSmall(w http.ResponseWriter, r *http.Request) {
 		r.Context(), usr, it,
 	)
 	if err != nil {
+		log.Printf("err %v", err)
 		body := application.NewResponse(nil, err)
 		writeReponse(w, body)
 		return
@@ -91,6 +96,7 @@ func userFileUploadLarge(w http.ResponseWriter, r *http.Request) {
 
 	bodyIn, err := ioutil.ReadAll(r.Body)
 	if err != nil {
+		log.Printf("err %v", err)
 		body := application.NewResponse(nil, err)
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		writeReponse(w, body)
@@ -99,6 +105,7 @@ func userFileUploadLarge(w http.ResponseWriter, r *http.Request) {
 
 	processedFile, err := processFile(bodyIn)
 	if err != nil {
+		log.Printf("err %v", err)
 		body := application.NewResponse(nil, err)
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		writeReponse(w, body)
@@ -114,6 +121,7 @@ func userFileUploadLarge(w http.ResponseWriter, r *http.Request) {
 		processedFile,
 	)
 	if err != nil {
+		log.Printf("err %v", err)
 		body := application.NewResponse(nil, err)
 		writeReponse(w, body)
 		return
@@ -131,6 +139,7 @@ func userFileUploadSmall(w http.ResponseWriter, r *http.Request) {
 
 	bodyIn, err := ioutil.ReadAll(r.Body)
 	if err != nil {
+		log.Printf("err %v", err)
 		body := application.NewResponse(nil, err)
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		writeReponse(w, body)
@@ -139,6 +148,7 @@ func userFileUploadSmall(w http.ResponseWriter, r *http.Request) {
 	fileData := application.File{}
 	err = json.Unmarshal(bodyIn, &fileData)
 	if err != nil {
+		log.Printf("err %v", err)
 		body := application.NewResponse(nil, err)
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		writeReponse(w, body)
@@ -153,6 +163,7 @@ func userFileUploadSmall(w http.ResponseWriter, r *http.Request) {
 		fileData.Data,
 	)
 	if err != nil {
+		log.Printf("err %v", err)
 		body := application.NewResponse(nil, err)
 		writeReponse(w, body)
 		return
